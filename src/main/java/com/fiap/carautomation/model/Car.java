@@ -11,7 +11,15 @@ public class Car {
     private Integer id;
     private String placa;
     private String endereco;
+    private double qtdKmRodados;
 
+    public double getQtdKmRodados() {
+        return qtdKmRodados;
+    }
+
+    public void setQtdKmRodados(double qtdKmRodados) {
+        this.qtdKmRodados = qtdKmRodados;
+    }
 
     public Integer getId() {
         return id;
