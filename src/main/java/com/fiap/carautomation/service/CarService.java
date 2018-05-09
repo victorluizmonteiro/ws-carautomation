@@ -38,4 +38,8 @@ public class CarService {
         carRepository.save(car);
 
     }
+
+    public void save(Car car) {
+        carRepository.save(car);
+    }
 }
