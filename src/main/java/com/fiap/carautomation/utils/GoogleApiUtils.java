@@ -11,11 +11,11 @@ import com.google.maps.model.TravelMode;
 import java.io.IOException;
 
 public class GoogleApiUtils {
-
+        private static final String APP_KEY = "AIzaSyA9u2sbcSVyqUMhZ6GJquIZDT-p2HI-AMA";
     public static DistanceMatrix getDistanceAndTime(String origin,String destin) throws InterruptedException, ApiException, IOException {
 
         GeoApiContext apiContext = new GeoApiContext.Builder()
-                .apiKey("")
+                .apiKey(APP_KEY)
                 .build();
 
         String endereco1 = "Avenida general teixeira lott,263,SP";

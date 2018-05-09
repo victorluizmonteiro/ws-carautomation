@@ -1,28 +1,50 @@
 package com.fiap.carautomation.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
 
-@Table
+@Document
 public class User {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private String id;
     private String nome;
     private String cpf;
-    private String endereco;
+    private String enderecoAtual;
+    private String enderecoOrigem;
+    private String enderecoDestino;
 
-    public Integer getId() {
+    public String getEnderecoAtual() {
+        return enderecoAtual;
+    }
+
+    public void setEnderecoAtual(String enderecoAtual) {
+        this.enderecoAtual = enderecoAtual;
+    }
+
+    public void setEnderecoOrigem(String enderecoOrigem) {
+        this.enderecoOrigem = enderecoOrigem;
+    }
+
+    public void setEnderecoDestino(String enderecoDestino) {
+        this.enderecoDestino = enderecoDestino;
+    }
+
+    public String getEnderecoOrigem() {
+        return enderecoOrigem;
+    }
+
+    public String getEnderecoDestino() {
+        return enderecoDestino;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -42,11 +64,5 @@ public class User {
         this.cpf = cpf;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
 }

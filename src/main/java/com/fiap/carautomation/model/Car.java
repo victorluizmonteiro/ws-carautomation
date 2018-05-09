@@ -1,17 +1,29 @@
 package com.fiap.carautomation.model;
 
+import com.fiap.carautomation.enums.Status;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
+@Document
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+
+    private String id;
     private String placa;
     private String endereco;
     private double qtdKmRodados;
+    private Status statusCar;
+
+    public Status getStatusCar() {
+        return statusCar;
+    }
+
+    public void setStatusCar(Status statusCar) {
+        this.statusCar = statusCar;
+    }
+
+
 
     public double getQtdKmRodados() {
         return qtdKmRodados;
@@ -21,11 +33,11 @@ public class Car {
         this.qtdKmRodados = qtdKmRodados;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
