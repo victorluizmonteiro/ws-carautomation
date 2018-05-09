@@ -23,7 +23,6 @@ public class UserService{
     }
 
     public User save(User user){
-                    user.setEnderecoAtual(user.getEnderecoOrigem());
         return  userRepository.save(user);
     }
 

@@ -15,17 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private UserService userService;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<User>cadastrar(@RequestBody User user){
-        try{
+    public ResponseEntity<User> cadastrar(@RequestBody User user) {
+        try {
+            user.setEnderecoAtual(user.getEnderecoOrigem());
             userService.save(user);
             return ResponseEntity.ok().body(user);
-        }catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(user);
         }
 

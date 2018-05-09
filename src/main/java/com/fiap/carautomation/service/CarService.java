@@ -40,6 +40,7 @@ public class CarService {
     }
 
     public void save(Car car) {
+        car.setStatusCar(Status.DISPONIVEL);
         carRepository.save(car);
     }
 }

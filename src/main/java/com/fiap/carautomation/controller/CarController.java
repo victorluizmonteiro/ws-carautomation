@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,31 +24,31 @@ public class CarController {
     public CarController(CarService carService) {
         this.carService = carService;
     }
-        @GetMapping("/available")
-        public Response<Car> findAvailableCars() {
-            Response<Car> response = new Response<>();
 
-                List<Car> cars = carService.findCarByStatus(Status.DISPONIVEL);
-                if(cars.isEmpty()){
+    @GetMapping("/available")
+    public Response<Car> findAvailableCars() {
+        Response<Car> response = new Response<>();
 
-                    response.getErrors().add("Não foram encontrados carros Disponíveis");
-                    return response;
-                }
-                    response.setData(cars);
-                    return response;
+        List<Car> cars = carService.findCarByStatus(Status.DISPONIVEL);
+        if (cars.isEmpty()) {
 
-
-
-
+            response.getErrors().add("Não foram encontrados carros Disponíveis");
+            return response;
         }
+        response.setData(cars);
+        return response;
 
-        public ResponseEntity<Car>cadastrar(@RequestBody Car car){
 
-        try{
+    }
+@PostMapping
+    public ResponseEntity<Car> cadastrar(@RequestBody Car car) {
+
+        try {
             carService.save(car);
             return ResponseEntity.ok().body(car);
-        }catch (Exception e){
-          return  ResponseEntity.badRequest().body(car);        }
-
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(car);
         }
+
+    }
 }

@@ -18,11 +18,10 @@ public class GoogleApiUtils {
                 .apiKey(APP_KEY)
                 .build();
 
-        String endereco1 = "Avenida general teixeira lott,263,SP";
-        String endereco2 = "Avenida Paulista,SP";
+
         DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(apiContext);
-        DistanceMatrix result = req.origins(endereco1)
-                .destinations(endereco2)
+        DistanceMatrix result = req.origins(origin)
+                .destinations(destin)
                 .mode(TravelMode.DRIVING)
                 .avoid(DirectionsApi.RouteRestriction.TOLLS)
                 .language("en-US")

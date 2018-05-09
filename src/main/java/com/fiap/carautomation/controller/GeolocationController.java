@@ -27,26 +27,16 @@ public class GeolocationController {
         this.carService = carService;
     }
 
-    @GetMapping
-    public String teste() throws InterruptedException, ApiException, IOException {
 
-        String end1 = "Avenida General teixeira lott,263,SP";
-        String end2 = "Avenida paulista";
 
-        DistanceMatrix result = GoogleApiUtils.getDistanceAndTime(end1,end2);
-
-        String km = result.rows[0].elements[0].distance.humanReadable;
-        String tempo = result.rows[0].elements[0].duration.humanReadable;
-
-        return "Km :" + km + "Tempo :" + tempo;
-    }
     @PostMapping("/chamarVeiculo")
     public String chamarVeiculo(@RequestBody GeolocatorDTO dto) throws InterruptedException, ApiException, IOException {
-        Car car = carService.findById(dto.getUserId());
+        Car car = carService.findById(dto.getCarId());
         User user = userService.findById(dto.getUserId());
-        DistanceMatrix result = GoogleApiUtils.getDistanceAndTime(car.getEndereco(),user.getEnderecoOrigem());
+        DistanceMatrix result = GoogleApiUtils.getDistanceAndTime(car.getEndereco(), user.getEnderecoOrigem());
 
         double distanciaPercorrida = result.rows[0].elements[0].distance.inMeters;
+        String distanciaPercorridaKM = result.rows[0].elements[0].distance.humanReadable;
 
         user.setEnderecoDestino(dto.getUserAddressDestin());
 
@@ -56,25 +46,30 @@ public class GeolocationController {
         userService.update(user);
         carService.atualizar(car);
 
-        return "Carro chegou ao seu destino : " + car.getEndereco() + "Km rodados : " + distanciaPercorrida;
+        return "Carro chegou ao seu destino : " + car.getEndereco() + "Km rodados : " + distanciaPercorridaKM;
 
     }
-    @PostMapping("/goToDestin")
-    public String goToDestin(@RequestBody  GeolocatorDTO dto) throws InterruptedException, ApiException, IOException {
 
-        Car car = carService.findById(dto.getUserId());
+    @PostMapping("/goToDestin")
+    public String goToDestin(@RequestBody GeolocatorDTO dto) throws InterruptedException, ApiException, IOException {
+
+        Car car = carService.findById(dto.getCarId());
         User user = userService.findById(dto.getUserId());
-        if(!user.getEnderecoAtual().equalsIgnoreCase(car.getEndereco())){
-            return "O carro : "+ car.getPlaca() + "Não chegou ao passageiro";
+        if (!user.getEnderecoAtual().equalsIgnoreCase(car.getEndereco())) {
+            return "O carro : " + car.getPlaca() + "Não chegou ao passageiro";
         }
-        DistanceMatrix result = GoogleApiUtils.getDistanceAndTime(car.getEndereco(),user.getEnderecoDestino());
+        DistanceMatrix result = GoogleApiUtils.getDistanceAndTime(car.getEndereco(), user.getEnderecoDestino());
 
         double distanciaPercorrida = result.rows[0].elements[0].distance.inMeters;
-        user.setEnderecoAtual(dto.getUserAddressDestin());
+        String distanciaPercorridaKM = result.rows[0].elements[0].distance.humanReadable;
+
+        user.setEnderecoAtual(user.getEnderecoDestino());
         car.setQtdKmRodados(car.getQtdKmRodados() + distanciaPercorrida);
         car.setStatusCar(Status.DISPONIVEL);
+        userService.update(user);
+        carService.atualizar(car);
 
-        return "Você chegou ao seu destino :" + user.getEnderecoAtual() + "Km rodados :" + distanciaPercorrida;
+        return "Você chegou ao seu destino :" + user.getEnderecoAtual() + "Km rodados :" + distanciaPercorridaKM;
 
     }
 
