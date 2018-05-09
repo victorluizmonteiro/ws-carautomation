@@ -53,7 +53,7 @@ public class GeolocationController {
         car.setEndereco(user.getEnderecoOrigem());
         car.setStatusCar(Status.COM_PASSAGEIRO);
         car.setQtdKmRodados(distanciaPercorrida);
-        userService.saveOrUpdate(user);
+        userService.update(user);
         carService.atualizar(car);
 
         return "Carro chegou ao seu destino : " + car.getEndereco() + "Km rodados : " + distanciaPercorrida;

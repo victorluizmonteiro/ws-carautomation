@@ -22,7 +22,12 @@ public class UserService{
         return user.get();
     }
 
-    public User saveOrUpdate(User user){
+    public User save(User user){
+                    user.setEnderecoAtual(user.getEnderecoOrigem());
+        return  userRepository.save(user);
+    }
+
+    public User update(User user){
 
         return  userRepository.save(user);
     }
