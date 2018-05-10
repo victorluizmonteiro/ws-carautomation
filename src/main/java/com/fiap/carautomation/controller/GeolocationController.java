@@ -29,7 +29,7 @@ public class GeolocationController {
     }
 
 
-    @PostMapping("/chamarVeiculo")
+    @RequestMapping(value = "/chamarVeiculo",method = RequestMethod.POST)
     public String chamarVeiculo(@RequestBody GeolocatorDTO dto) throws InterruptedException, ApiException, IOException {
         Car car = carService.findById(dto.getCarId());
         User user = userService.findById(dto.getUserId());
@@ -56,7 +56,7 @@ public class GeolocationController {
 
     }
 
-    @PostMapping("/goToDestin")
+    @RequestMapping(value = "/goToDestin",method = RequestMethod.POST)
     public String goToDestin(@RequestBody GeolocatorDTO dto) throws InterruptedException, ApiException, IOException {
 
         Car car = carService.findById(dto.getCarId());

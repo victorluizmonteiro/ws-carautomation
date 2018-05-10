@@ -21,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<User> cadastrar(@RequestBody User user) {
         try {
             user.setEnderecoAtual(user.getEnderecoOrigem());

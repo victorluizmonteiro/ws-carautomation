@@ -7,10 +7,7 @@ import com.fiap.carautomation.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.OptionalDouble;
@@ -27,7 +24,7 @@ public class CarController {
         this.carService = carService;
     }
 
-    @GetMapping("/available")
+    @RequestMapping(value = "/available",method = RequestMethod.GET)
     public ResponseEntity<Response<Car>> findAvailableCars() {
         Response<Car> response = new Response<>();
 
@@ -43,7 +40,7 @@ public class CarController {
 
     }
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Car> cadastrar(@RequestBody Car car) {
 
         try {
@@ -55,7 +52,7 @@ public class CarController {
 
     }
 
-    @GetMapping("/all")
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
     public ResponseEntity<Response<Car>>findAll(){
         Response<Car> response = new Response<>();
         List<Car>cars = carService.findAll();
@@ -66,7 +63,7 @@ public class CarController {
 
     }
 
-    @GetMapping("/custoFrotaVeiculos")
+    @RequestMapping(value = "/custoFrotaVeiculos",method = RequestMethod.GET)
     public ResponseEntity<String> calcularGastos(){
 
         List<Car> cars = carService.findAll();
