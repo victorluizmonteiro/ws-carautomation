@@ -6,6 +6,7 @@ import com.fiap.carautomation.model.Car;
 import com.fiap.carautomation.model.User;
 import com.fiap.carautomation.service.CarService;
 import com.fiap.carautomation.service.UserService;
+import com.fiap.carautomation.utils.ConversorUtils;
 import com.fiap.carautomation.utils.GoogleApiUtils;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
@@ -28,25 +29,30 @@ public class GeolocationController {
     }
 
 
-
     @PostMapping("/chamarVeiculo")
     public String chamarVeiculo(@RequestBody GeolocatorDTO dto) throws InterruptedException, ApiException, IOException {
         Car car = carService.findById(dto.getCarId());
         User user = userService.findById(dto.getUserId());
-        DistanceMatrix result = GoogleApiUtils.getDistanceAndTime(car.getEndereco(), user.getEnderecoOrigem());
 
-        double distanciaPercorrida = result.rows[0].elements[0].distance.inMeters;
-        String distanciaPercorridaKM = result.rows[0].elements[0].distance.humanReadable;
+        if (car.getStatusCar() != Status.COM_PASSAGEIRO || car.getStatusCar() != Status.MANUTENCAO) {
+            DistanceMatrix result = GoogleApiUtils.getDistanceAndTime(car.getEndereco(), user.getEnderecoOrigem());
 
-        user.setEnderecoDestino(dto.getUserAddressDestin());
+            double distanciaPercorrida = result.rows[0].elements[0].distance.inMeters;
+            String distanciaPercorridaKM = result.rows[0].elements[0].distance.humanReadable;
 
-        car.setEndereco(user.getEnderecoOrigem());
-        car.setStatusCar(Status.COM_PASSAGEIRO);
-        car.setQtdKmRodados(distanciaPercorrida);
-        userService.update(user);
-        carService.atualizar(car);
+            user.setEnderecoDestino(dto.getUserAddressDestin());
 
-        return "Carro chegou ao seu destino : " + car.getEndereco() + "Km rodados : " + distanciaPercorridaKM;
+            car.setEndereco(user.getEnderecoOrigem());
+            car.setStatusCar(Status.COM_PASSAGEIRO);
+            car.setQtdKmRodados(distanciaPercorrida);
+            userService.update(user);
+            carService.atualizar(car);
+
+            return "Carro chegou ao seu destino : " + car.getEndereco() + "/nKm rodados : " + distanciaPercorridaKM;
+        }
+
+        return "O carro " + car.getPlaca() + "Está com passageiro ou em manutenção !";
+
 
     }
 
@@ -63,13 +69,14 @@ public class GeolocationController {
         double distanciaPercorrida = result.rows[0].elements[0].distance.inMeters;
         String distanciaPercorridaKM = result.rows[0].elements[0].distance.humanReadable;
 
+        Double distanciaTotal = car.getQtdKmRodados() + distanciaPercorrida;
         user.setEnderecoAtual(user.getEnderecoDestino());
-        car.setQtdKmRodados(car.getQtdKmRodados() + distanciaPercorrida);
+        car.setQtdKmRodados(ConversorUtils.convertMetersToKilometers(distanciaTotal));
         car.setStatusCar(Status.DISPONIVEL);
         userService.update(user);
         carService.atualizar(car);
 
-        return "Você chegou ao seu destino :" + user.getEnderecoAtual() + "Km rodados :" + distanciaPercorridaKM;
+        return "Você chegou ao seu destino : " + user.getEnderecoAtual() + "/nKm rodados : " + distanciaPercorridaKM;
 
     }
 

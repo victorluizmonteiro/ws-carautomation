@@ -43,4 +43,10 @@ public class CarService {
         car.setStatusCar(Status.DISPONIVEL);
         carRepository.save(car);
     }
+
+    public List<Car>findAll(){
+        List<Car> cars = carRepository.findAll();
+
+        return cars;
+    }
 }

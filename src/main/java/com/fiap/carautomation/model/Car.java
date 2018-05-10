@@ -1,6 +1,7 @@
 package com.fiap.carautomation.model;
 
 import com.fiap.carautomation.enums.Status;
+import com.fiap.carautomation.utils.ConversorUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
