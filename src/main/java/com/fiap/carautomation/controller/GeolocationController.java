@@ -10,6 +10,8 @@ import com.fiap.carautomation.utils.ConversorUtils;
 import com.fiap.carautomation.utils.GoogleApiUtils;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/googleapi")
+@Api(value = "geolocationapi",description = "Api que realiza as operações relacioandas ao Google Maps")
 public class GeolocationController {
 
     private UserService userService;
@@ -29,7 +32,8 @@ public class GeolocationController {
     }
 
 
-    @RequestMapping(value = "/chamarVeiculo",method = RequestMethod.POST)
+    @PostMapping(value = "/chamarVeiculo")
+    @ApiOperation(value = "Recurso que  simula o carro indo até o cliente que o chamou ",response = String.class)
     public String chamarVeiculo(@RequestBody GeolocatorDTO dto) throws InterruptedException, ApiException, IOException {
         Car car = carService.findById(dto.getCarId());
         User user = userService.findById(dto.getUserId());
@@ -56,7 +60,9 @@ public class GeolocationController {
 
     }
 
-    @RequestMapping(value = "/goToDestin",method = RequestMethod.POST)
+    @PostMapping(value = "/goToDestin")
+    @ApiOperation(value = "Recurso que  simula o cliente indo até o destino final escolhido ",response = String.class)
+
     public String goToDestin(@RequestBody GeolocatorDTO dto) throws InterruptedException, ApiException, IOException {
 
         Car car = carService.findById(dto.getCarId());

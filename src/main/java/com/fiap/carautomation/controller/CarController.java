@@ -4,6 +4,8 @@ import com.fiap.carautomation.enums.Status;
 import com.fiap.carautomation.model.Car;
 import com.fiap.carautomation.service.CarService;
 import com.fiap.carautomation.utils.Response;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/car")
+@Api(value = "carapi",description = "Api responsável por realizar operações relacionadas ao carro.")
 public class CarController {
 
     private CarService carService;
@@ -24,7 +27,8 @@ public class CarController {
         this.carService = carService;
     }
 
-    @RequestMapping(value = "/available",method = RequestMethod.GET)
+    @GetMapping(value = "/available")
+    @ApiOperation(value = "Recurso responsável por buscar todos os carros Disponíveis",response = Car.class)
     public ResponseEntity<Response<Car>> findAvailableCars() {
         Response<Car> response = new Response<>();
 
@@ -40,7 +44,8 @@ public class CarController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
+    @ApiOperation(value = "Recurso responsável por cadastrar veiculos",response = Car.class)
     public ResponseEntity<Car> cadastrar(@RequestBody Car car) {
 
         try {
@@ -52,7 +57,8 @@ public class CarController {
 
     }
 
-    @RequestMapping(value = "/all",method = RequestMethod.GET)
+    @GetMapping(value = "/all")
+    @ApiOperation(value = "Recurso responsável por buscar todos os veiculos",response = Car.class)
     public ResponseEntity<Response<Car>>findAll(){
         Response<Car> response = new Response<>();
         List<Car>cars = carService.findAll();
@@ -63,7 +69,8 @@ public class CarController {
 
     }
 
-    @RequestMapping(value = "/custoFrotaVeiculos",method = RequestMethod.GET)
+    @GetMapping(value = "/custoFrotaVeiculos")
+    @ApiOperation(value = "Recurso responsável por calcular o custo por km rodado de toda a frota de veiculos",response = String.class)
     public ResponseEntity<String> calcularGastos(){
 
         List<Car> cars = carService.findAll();
