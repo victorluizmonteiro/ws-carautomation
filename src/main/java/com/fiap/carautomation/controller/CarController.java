@@ -86,7 +86,7 @@ public class CarController {
 
         List<Car> cars = carService.findAll();
 
-        double totalKmRodados = ((Double) cars.stream().mapToDouble(car -> car.getQtdKmRodados().doubleValue()).sum());
+        double totalKmRodados = (cars.stream().mapToDouble(car -> car.getQtdKmRodados().doubleValue()).sum());
         Double custoKmRodado = totalKmRodados + (totalKmRodados * 0.9);
 
         String resposta =
