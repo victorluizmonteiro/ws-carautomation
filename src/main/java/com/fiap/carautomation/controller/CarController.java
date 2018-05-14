@@ -47,13 +47,23 @@ public class CarController {
 
     @PostMapping
     @ApiOperation(value = "Recurso responsável por cadastrar veiculos", response = Car.class)
-    public ResponseEntity<Response<Car>> cadastrar(@Valid @RequestBody Car car, BindingResult result) {
+    public ResponseEntity<Response<Car>> cadastrar(@RequestBody Car car) {
 
         Response<Car> response = new Response();
-        if (result.hasErrors()) {
-            result.getAllErrors().forEach(errors -> response.getErrors().add(errors.getDefaultMessage()));
+        if (car.getEndereco().isEmpty()) {
+            response.getErrors().add("O endereço é obrigatório");
+        }
+
+        if (car.getPlaca().isEmpty()) {
+            response.getErrors().add("a placa é obrigatória");
+        }
+
+
+        if(!response.getErrors().isEmpty()){
             return ResponseEntity.badRequest().body(response);
-        } else {
+
+        }
+        else {
             carService.save(car);
             response.setData(car);
             return ResponseEntity.ok().body(response);

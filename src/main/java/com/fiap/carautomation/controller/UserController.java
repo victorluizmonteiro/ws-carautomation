@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("user")
-@Api(value = "userapi",description = "Api responsável por realizar o cadastro do usuário")
+@Api(value = "userapi", description = "Api responsável por realizar o cadastro do usuário")
 public class UserController {
 
     private UserService userService;
@@ -27,26 +27,34 @@ public class UserController {
     }
 
     @PostMapping
-    @ApiOperation(value = "recurso que cadastra um usuário",response = User.class)
-    public ResponseEntity<Response<User>> cadastrar(@Valid  @RequestBody User user, BindingResult result) {
-            Response<User>response = new Response<>();
-            if(result.hasErrors()){
-                result.getAllErrors().forEach(errors -> response.getErrors().add(errors.getDefaultMessage()));
-                return ResponseEntity.badRequest().body(response);
-            }else{
+    @ApiOperation(value = "Recurso que cadastra um usuário", response = User.class)
+    public ResponseEntity<Response<User>> cadastrar(@Valid @RequestBody User user, BindingResult result) {
+        Response<User> response = new Response<>();
+        if (user.getEnderecoOrigem().isEmpty()) {
+            response.getErrors().add("Endereço origiem é obrigatório !");
+            return ResponseEntity.badRequest().body(response);
+        } else {
 
-                user.setEnderecoAtual(user.getEnderecoOrigem());
-                userService.save(user);
-                response.setData(user);
-                return ResponseEntity.ok().body(response);
-            }
-
-
-
+            user.setEnderecoAtual(user.getEnderecoOrigem());
+            userService.save(user);
+            response.setData(user);
+            return ResponseEntity.ok().body(response);
+        }
 
 
     }
+    @GetMapping
+    @ApiOperation(value = "Recurso responsável por retornar os usuários cadastrados no sistema")
+    public ResponseEntity<Response<User>> getUsers(){
 
+        Response<User> response = new Response<>();
+        List<User>users = userService.findAll();
+        response.setDataList(users);
+
+        return ResponseEntity.ok().body(response);
+
+
+    }
 
 
 }
