@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -47,23 +48,16 @@ public class CarController {
 
     @PostMapping
     @ApiOperation(value = "Recurso responsável por cadastrar veiculos", response = Car.class)
-    public ResponseEntity<Response<Car>> cadastrar(@RequestBody Car car) {
+    public ResponseEntity<Response<Car>> cadastrar(@Valid @RequestBody Car car, BindingResult result) {
 
         Response<Car> response = new Response();
-        if (car.getEndereco().isEmpty()) {
-            response.getErrors().add("O endereço é obrigatório");
-        }
-
-        if (car.getPlaca().isEmpty()) {
-            response.getErrors().add("a placa é obrigatória");
-        }
 
 
-        if(!response.getErrors().isEmpty()){
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(errors -> response.getErrors().add(errors.getDefaultMessage()));
             return ResponseEntity.badRequest().body(response);
 
-        }
-        else {
+        } else {
             carService.save(car);
             response.setData(car);
             return ResponseEntity.ok().body(response);

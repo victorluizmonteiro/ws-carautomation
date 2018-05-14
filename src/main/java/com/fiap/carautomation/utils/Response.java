@@ -1,5 +1,6 @@
 package com.fiap.carautomation.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Response<T> {
@@ -25,6 +26,10 @@ public class Response<T> {
     }
 
     public List<String> getErrors() {
+
+        if(this.errors == null){
+            this.errors = new ArrayList<String>();
+        }
         return errors;
     }
 
