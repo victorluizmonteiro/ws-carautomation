@@ -18,7 +18,7 @@ public class Car {
     private String id;
     private String placa;
     private String endereco;
-    private BigDecimal qtdKmRodados;
+    private Double qtdKmRodados;
     private Status statusCar;
 
     public Status getStatusCar() {
@@ -30,11 +30,11 @@ public class Car {
     }
 
 
-    public BigDecimal getQtdKmRodados() {
+    public Double getQtdKmRodados() {
         return qtdKmRodados;
     }
 
-    public void setQtdKmRodados(BigDecimal qtdKmRodados) {
+    public void setQtdKmRodados(Double qtdKmRodados) {
         this.qtdKmRodados = qtdKmRodados;
     }
 

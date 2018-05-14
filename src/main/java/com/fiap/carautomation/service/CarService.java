@@ -57,7 +57,7 @@ public class CarService {
         car.setId(dto.getId());
         car.setStatusCar(dto.getStatusCar());
         car.setEndereco(dto.getEndereco());
-        car.setQtdKmRodados(BigDecimal.ZERO);
+        car.setQtdKmRodados(0.0);
 
         return  car;
 
