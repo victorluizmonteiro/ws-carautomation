@@ -91,7 +91,7 @@ public class CarController {
 
         String resposta =
                 "O total de Kilometros percorridos pela frota é  : " + totalKmRodados + ConversorUtils.getLineSeparator() +
-                        "E o custo por Km percorrido é   de :" + custoKmRodado;
+                        "E o custo em reais por Km percorrido é   de :" + custoKmRodado;
         return ResponseEntity.ok().body(resposta);
 
     }
