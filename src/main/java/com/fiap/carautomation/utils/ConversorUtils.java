@@ -7,5 +7,9 @@ public class ConversorUtils {
             Double calc = meter/1000;
         return calc;
     }
+
+    public  static String getLineSeparator(){
+        return System.getProperty("line.separator");
+    }
 }
 

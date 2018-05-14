@@ -52,7 +52,7 @@ public class GeolocationController {
             userService.update(user);
             carService.atualizar(car);
 
-            return "Carro chegou ao seu destino : " + car.getEndereco() + "/nKm rodados : " + distanciaPercorridaKM;
+            return "Carro chegou ao seu destino : " + car.getEndereco() + ConversorUtils.getLineSeparator() +  "Km rodados : " + distanciaPercorridaKM;
         }
 
         return "O carro " + car.getPlaca() + "Está com passageiro ou em manutenção !";
@@ -82,7 +82,7 @@ public class GeolocationController {
         userService.update(user);
         carService.atualizar(car);
 
-        return "Você chegou ao seu destino : " + user.getEnderecoAtual() + "/nKm rodados : " + distanciaPercorridaKM;
+        return "Você chegou ao seu destino : " + user.getEnderecoAtual() + ConversorUtils.getLineSeparator() +"Km rodados : " + distanciaPercorridaKM;
 
     }
 

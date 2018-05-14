@@ -5,13 +5,17 @@ import com.fiap.carautomation.utils.ConversorUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 
 @Document
 public class Car {
     @Id
-
     private String id;
+    @NotEmpty(message = "A placa é obrigatória !")
     private String placa;
+    @NotEmpty(message = "O campo endereço é obrigatório !")
     private String endereco;
     private double qtdKmRodados;
     private Status statusCar;

@@ -4,15 +4,24 @@ import java.util.List;
 
 public class Response<T> {
 
-    private List<T> data;
+    private T data;
+    private List<T>dataList;
     private List<String>errors;
 
-    public List<T> getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(List<T> data) {
+    public void setData(T data) {
         this.data = data;
+    }
+
+    public List<T> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<T> dataList) {
+        this.dataList = dataList;
     }
 
     public List<String> getErrors() {

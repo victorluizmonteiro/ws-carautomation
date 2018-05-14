@@ -3,6 +3,8 @@ package com.fiap.carautomation.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotEmpty;
+
 
 @Document
 public class User {
@@ -13,6 +15,7 @@ public class User {
     private String nome;
     private String cpf;
     private String enderecoAtual;
+    @NotEmpty(message = "O campo endereço é atual é  obrigatório !")
     private String enderecoOrigem;
     private String enderecoDestino;
 

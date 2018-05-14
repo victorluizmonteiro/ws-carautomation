@@ -8,8 +8,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,14 +28,22 @@ public class UserController {
 
     @PostMapping
     @ApiOperation(value = "recurso que cadastra um usuário",response = User.class)
-    public ResponseEntity<User> cadastrar(@RequestBody User user) {
-        try {
-            user.setEnderecoAtual(user.getEnderecoOrigem());
-            userService.save(user);
-            return ResponseEntity.ok().body(user);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(user);
-        }
+    public ResponseEntity<Response<User>> cadastrar(@Valid  @RequestBody User user, BindingResult result) {
+            Response<User>response = new Response<>();
+            if(result.hasErrors()){
+                result.getAllErrors().forEach(errors -> response.getErrors().add(errors.getDefaultMessage()));
+                return ResponseEntity.badRequest().body(response);
+            }else{
+
+                user.setEnderecoAtual(user.getEnderecoOrigem());
+                userService.save(user);
+                response.setData(user);
+                return ResponseEntity.ok().body(response);
+            }
+
+
+
+
 
     }
 
