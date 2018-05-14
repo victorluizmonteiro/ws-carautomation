@@ -1,5 +1,6 @@
 package com.fiap.carautomation.service;
 
+import com.fiap.carautomation.dto.UserDTO;
 import com.fiap.carautomation.model.User;
 import com.fiap.carautomation.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,17 @@ public class UserService{
     public List<User>findAll(){
         List<User>users = userRepository.findAll();
         return users;
+    }
+
+    public User convertDtoToUser(UserDTO dto){
+        User user = new User();
+        user.setId(dto.getId());
+        user.setCpf(dto.getCpf());
+        user.setNome(dto.getNome());
+        user.setEnderecoAtual(dto.getEnderecoOrigem());
+        user.setEnderecoOrigem(dto.getEnderecoOrigem());
+        user.setEnderecoDestino("");
+
+        return user;
     }
 }

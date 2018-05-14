@@ -9,18 +9,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 
 @Document
 public class Car {
     @Id
     private String id;
-    @NotEmpty(message = "A placa é obrigatória !")
     private String placa;
-    @NotEmpty(message = "O campo endereço é obrigatório !")
     private String endereco;
-    @JsonIgnoreProperties
-    private double qtdKmRodados;
+    private BigDecimal qtdKmRodados;
     private Status statusCar;
 
     public Status getStatusCar() {
@@ -32,12 +30,11 @@ public class Car {
     }
 
 
-
-    public double getQtdKmRodados() {
+    public BigDecimal getQtdKmRodados() {
         return qtdKmRodados;
     }
 
-    public void setQtdKmRodados(double qtdKmRodados) {
+    public void setQtdKmRodados(BigDecimal qtdKmRodados) {
         this.qtdKmRodados = qtdKmRodados;
     }
 

@@ -1,5 +1,6 @@
 package com.fiap.carautomation.controller;
 
+import com.fiap.carautomation.dto.UserDTO;
 import com.fiap.carautomation.model.Car;
 import com.fiap.carautomation.model.User;
 import com.fiap.carautomation.service.UserService;
@@ -28,8 +29,9 @@ public class UserController {
 
     @PostMapping
     @ApiOperation(value = "Recurso que cadastra um usuário", response = User.class)
-    public ResponseEntity<Response<User>> cadastrar(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<Response<User>> cadastrar(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
         Response<User> response = new Response<>();
+        User user = userService.convertDtoToUser(userDTO);
         if (result.hasErrors()) {
             result.getAllErrors().forEach(errors -> response.getErrors().add(errors.getDefaultMessage()));
             return ResponseEntity.badRequest().body(response);

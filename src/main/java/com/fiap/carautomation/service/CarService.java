@@ -1,11 +1,13 @@
 package com.fiap.carautomation.service;
 
+import com.fiap.carautomation.dto.CarDTO;
 import com.fiap.carautomation.enums.Status;
 import com.fiap.carautomation.model.Car;
 import com.fiap.carautomation.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +50,16 @@ public class CarService {
         List<Car> cars = carRepository.findAll();
 
         return cars;
+    }
+
+    public Car convertDtoToCar(CarDTO dto){
+        Car car = new Car();
+        car.setId(dto.getId());
+        car.setStatusCar(dto.getStatusCar());
+        car.setEndereco(dto.getEndereco());
+        car.setQtdKmRodados(BigDecimal.ZERO);
+
+        return  car;
+
     }
 }

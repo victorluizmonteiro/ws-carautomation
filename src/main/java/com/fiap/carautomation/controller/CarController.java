@@ -1,5 +1,6 @@
 package com.fiap.carautomation.controller;
 
+import com.fiap.carautomation.dto.CarDTO;
 import com.fiap.carautomation.enums.Status;
 import com.fiap.carautomation.model.Car;
 import com.fiap.carautomation.service.CarService;
@@ -48,9 +49,10 @@ public class CarController {
 
     @PostMapping
     @ApiOperation(value = "Recurso responsável por cadastrar veiculos", response = Car.class)
-    public ResponseEntity<Response<Car>> cadastrar(@Valid @RequestBody Car car, BindingResult result) {
+    public ResponseEntity<Response<Car>> cadastrar(@Valid @RequestBody CarDTO carDTO, BindingResult result) {
 
         Response<Car> response = new Response();
+        Car car = carService.convertDtoToCar(carDTO);
 
 
         if (result.hasErrors()) {
@@ -84,7 +86,7 @@ public class CarController {
 
         List<Car> cars = carService.findAll();
 
-        double totalKmRodados = cars.stream().mapToDouble(car -> car.getQtdKmRodados()).sum();
+        double totalKmRodados = ((Double) cars.stream().mapToDouble(car -> car.getQtdKmRodados().doubleValue()).sum());
         Double custoKmRodado = totalKmRodados + (totalKmRodados * 0.9);
 
         String resposta =
@@ -93,4 +95,6 @@ public class CarController {
         return ResponseEntity.ok().body(resposta);
 
     }
+
+
 }
