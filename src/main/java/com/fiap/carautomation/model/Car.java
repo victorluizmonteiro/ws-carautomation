@@ -1,5 +1,7 @@
 package com.fiap.carautomation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fiap.carautomation.enums.Status;
 import com.fiap.carautomation.utils.ConversorUtils;
 import org.springframework.data.annotation.Id;
@@ -17,6 +19,7 @@ public class Car {
     private String placa;
     @NotEmpty(message = "O campo endereço é obrigatório !")
     private String endereco;
+    @JsonIgnoreProperties
     private double qtdKmRodados;
     private Status statusCar;
 
