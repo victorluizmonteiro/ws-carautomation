@@ -17,9 +17,7 @@ public class Response<T> {
         this.data = data;
     }
 
-    public List<T> getDataList() {
-        return dataList;
-    }
+
 
     public void setDataList(List<T> dataList) {
         this.dataList = dataList;
@@ -35,5 +33,11 @@ public class Response<T> {
 
     public void setErrors(List<String> errors) {
         this.errors = errors;
+    }
+    public List<T> getDataList() {
+        if(this.dataList == null){
+            this.dataList = new ArrayList<T>();
+        }
+        return dataList;
     }
 }
