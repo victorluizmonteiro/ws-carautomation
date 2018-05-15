@@ -55,6 +55,7 @@ public class CarService {
     public Car convertDtoToCar(CarDTO dto){
         Car car = new Car();
         car.setId(dto.getId());
+        car.setPlaca(dto.getPlaca());
         car.setStatusCar(dto.getStatusCar());
         car.setEndereco(dto.getEndereco());
         car.setQtdKmRodados(0.0);
